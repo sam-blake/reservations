@@ -1,9 +1,16 @@
 <% title "Import Users" %>
 
-<h3>CSV Import Format</h3>
-<h5>Columns (must be in the first row of the CSV file)</h5>
+<h2>Instructions</h2>
+
+<p>Here you can upload a CSV file with user information to quickly add a number of users to Reservations. You can create a CSV file from Excel using the "Save As..." command, for more information please see <a href="http://office.microsoft.com/en-us/excel-help/import-or-export-text-txt-or-csv-files-HP010342598.aspx">this</a> link. The first row of that file must match the format specified below:</p>
+
+<h5>Column Headings</h5>
 <%= markdown("
     login,first_name,last_name,nickname,phone,email,affiliation") %>
+
+<p>The import <em>might</em> work if the columns are in a different order, but the actual headings must match exactly and the file must include all of the headings (even if none of the users have data in some columns). In addition, all users must have the <code style="color: #333333;">login</code> field filled in with their netID's in order to be imported.</p>
+
+<p>If you have users in your CSV file that already have accounts in Reservations, you can choose to overwrite their data with the CSV data by selecting the "Update existing users' information?" checkbox. Please note that this will overwrite all of the user's data, even those columns with no data in the CSV file.</p>
 
 <h5>Example</h5>
 <%= markdown("
