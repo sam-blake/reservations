@@ -97,3 +97,6 @@ group :production, :staging do
   gem 'airbrake'
   gem 'pg'
 end
+
+# for Heroku
+gem 'rails_12factor', group: :production
