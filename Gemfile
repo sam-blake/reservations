@@ -95,4 +95,5 @@ end
 group :production, :staging do
   gem 'therubyracer', require: 'v8'
   gem 'airbrake'
+  gem 'pg'
 end
