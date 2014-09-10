@@ -22,9 +22,6 @@ Reservations::Application.configure do
   # See everything in the log (default is :info)
   # config.log_level = :debug
 
-  # Log detail is configurable on the server
-  config.log_level = ENV['LOG_LEVEL'] ? ENV['LOG_LEVEL'].to_sym : ('info').to_sym
-
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
 
@@ -33,7 +30,7 @@ Reservations::Application.configure do
 
   # Disable Rails's static asset server
   # In production, Apache or nginx will already do this
-  config.serve_static_assets = false
+  config.serve_static_assets = true
 
   # Enable serving of images, stylesheets, and javascripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
@@ -73,12 +70,4 @@ Reservations::Application.configure do
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   config.assets.precompile += %w(print.css)
-
-  # HEROKU SETTINGS
-    # config.cache_classes = true
-    # config.serve_static_assets = true
-    # config.assets.compile = true
-    # config.assets.digest = true
-    # config.assets.initialize_on_precompile = true
-    config.serve_static_assets = true
 end
