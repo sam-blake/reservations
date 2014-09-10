@@ -22,6 +22,9 @@ Reservations::Application.configure do
   # See everything in the log (default is :info)
   # config.log_level = :debug
 
+  # Log detail is configurable on the server
+  config.log_level = ENV['LOG_LEVEL'] ? ENV['LOG_LEVEL'].to_sym : ('info').to_sym
+
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
 
