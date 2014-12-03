@@ -34,7 +34,7 @@
 
   <%= label_tag "Current notes" %>
   <div class='row'>
-    <div class='span4'>
+    <div class='span9'>
       <div class='notes-container'>
         <%= markdown @reservation.notes %>
       </div>
@@ -45,5 +45,5 @@
   <%= text_area_tag :new_notes, "", rows: 5, class: 'span4' %>
   <br />
   <%= render :partial => 'shared/markdown_button' %>
-  <%= f.button :wrapped, :cancel => reservations_path %>
+  <%= f.button :wrapped, :cancel => :back %>
 <% end %>

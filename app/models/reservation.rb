@@ -157,7 +157,7 @@ class Reservation < ActiveRecord::Base
     # renew the reservation and return error messages if unsuccessful
     return "Reservation not eligible for renewal" unless self.is_eligible_for_renew?
     self.due_date = self.find_renewal_date
-    self.notes = "#{self.notes}"+"\n\n### Renewed on #{Time.current.to_s(:long)} by #{user.md_link}\n\nThe new due date is #{self.due_date.to_date.to_s(:long)}."
+    self.notes = self.notes.to_s+"\n\n### Renewed on #{Time.current.to_s(:long)} by #{user.md_link}\n\nThe new due date is #{self.due_date.to_date.to_s(:long)}."
     self.times_renewed += 1
     return "Unable to update reservation dates." unless self.save
     return nil
@@ -206,7 +206,7 @@ class Reservation < ActiveRecord::Base
       self.checked_out = Time.current if self.checked_out.nil?
       # archive equipment object if checked out
       self.equipment_object.make_reservation_notes("archived", self, archiver, "#{note}", Time.current) if self.equipment_object
-      self.notes = self.notes.to_s + "\n\n### Archived on #{Time.current.to_s(:long)} by #{archiver.md_link}\n\n\n#### " +
+      self.notes = self.notes.to_s+"\n\n### Archived on #{Time.current.to_s(:long)} by #{archiver.md_link}\n\n\n#### " +
         "Reason:\n#{note}\n\n#### The checkin and checkout dates may reflect the archive date because the reservation was " +
         "for a nonexistent piece of equipment or otherwise problematic."
     end
@@ -251,8 +251,7 @@ class Reservation < ActiveRecord::Base
       return
     else
       # write notes header
-      header = "### Edited on #{Time.current.to_s(:long)} by #{current_user.md_link}\n"
-      self.notes = self.notes ? self.notes + "\n" + header : header
+      self.notes = self.notes.to_s+"\n\n### Edited on #{Time.current.to_s(:long)} by #{current_user.md_link}\n"
 
       # add notes if they exist
       unless new_notes.empty?
@@ -297,8 +296,7 @@ class Reservation < ActiveRecord::Base
     # procedure_kind
 
     # write notes header
-    header = "### #{procedure_verb} on #{Time.current.to_s(:long)} by #{current_user.md_link}\n"
-    self.notes = self.notes ? self.notes + "\n" + header : header
+    self.notes = self.notes.to_s+"\n\n### #{procedure_verb} on #{Time.current.to_s(:long)} by #{current_user.md_link}\n"
 
     # If no new notes and no missed procedures, set e-mail flag to false and
     # return
