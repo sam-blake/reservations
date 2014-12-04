@@ -112,6 +112,10 @@ class ReservationsController < ApplicationController
 
   def edit
     @option_array = @reservation.equipment_model.equipment_objects.collect { |e| [e.name, e.id] }
+    # figure out a way to determine the next day with zero availability
+    # (within some range) and then use that to trigger a JS warning (so if we
+    # make the due date after that zero availability date then we warn the
+    # admin)
   end
 
   def update # for editing reservations; not for checkout or check-in
