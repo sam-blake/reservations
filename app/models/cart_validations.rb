@@ -15,6 +15,7 @@ module CartValidations
     errors += check_due_date_blackout
     errors += check_overdue_reservations unless renew
     errors += check_max_items
+    errors += check_cookie_limit
 
     user_reservations = Reservation.for_reserver(self.reserver_id).not_returned.all
     models = self.get_items
@@ -57,6 +58,18 @@ module CartValidations
     errors = []
     if Reservation.for_reserver(self.reserver_id).overdue.count > 0
       errors << "This user has overdue reservations that prevent him/her from creating new ones"
+    end
+    errors
+  end
+
+  def check_cookie_limit
+    # checks the total number of models in the cart to prevent cookie
+    # overflow, the limit is somewhat arbitrarily set to 100 based on an
+    # estimated actual limit of >350 (see issue #880)
+    cookie_limit = 100
+    errors = []
+    if self.items.keys.count > cookie_limit
+      errors << "You cannot add more than #{cookie_limit} models to the cart."
     end
     errors
   end
