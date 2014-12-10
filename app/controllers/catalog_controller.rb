@@ -77,7 +77,10 @@ class CatalogController < ApplicationController
 
       respond_to do |format|
         format.html{redirect_to root_path}
-        format.js{render template: "cart_js/update_cart"}
+        format.js do
+          prepare_catalog_index_vars
+          render template: "cart_js/reload_all"
+        end
       end
     end
 

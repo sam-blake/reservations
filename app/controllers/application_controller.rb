@@ -152,7 +152,7 @@ class ApplicationController < ActionController::Base
     end
 
     respond_to do |format|
-      format.js{render template: "cart_js/cart_dates_reload"}
+      format.js{render template: "cart_js/reload_all"}
         # guys i really don't like how this is rendering a template for js,
         # but :action doesn't work at all
       format.html{render partial: "reservations/cart_dates"}
@@ -205,9 +205,11 @@ class ApplicationController < ActionController::Base
 
     # build the hash using class methods that use 0 queries
     eq_models.each do |em|
-      @availability_hash[em.id] = [EquipmentObject.for_eq_model(em.id,eq_objects) - \
-        Reservation.number_overdue_for_eq_model(em.id,source_reservations) - \
-        em.num_reserved(cart.start_date,cart.due_date,source_reservations), 0].max
+      @availability_hash[em.id] =
+        [EquipmentObject.for_eq_model(em.id,eq_objects) -
+        Reservation.number_overdue_for_eq_model(em.id,source_reservations) -
+        em.num_reserved(cart.start_date,cart.due_date,source_reservations) -
+        cart.items[em.id].to_i, 0].max
     end
     @page_eq_models_by_category = eq_models
 
