@@ -161,7 +161,10 @@ class ApplicationController < ActionController::Base
     prepare_catalog_index_vars if params[:controller] == 'catalog'
 
     respond_to do |format|
-      format.js { render template: 'cart_js/reload_all' }
+      format.js do
+        prepare_catalog_index_vars
+        render template: 'cart_js/reload_all'
+      end
       # guys i really don't like how this is rendering a template for js,
       # but :action doesn't work at all
       format.html { render partial: 'reservations/cart_dates' }
