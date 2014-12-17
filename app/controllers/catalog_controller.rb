@@ -79,6 +79,7 @@ class CatalogController < ApplicationController
         format.html{redirect_to root_path}
         format.js do
           prepare_catalog_index_vars
+          @em = item.id
           render template: "cart_js/update_cart"
         end
       end
