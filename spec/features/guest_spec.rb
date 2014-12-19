@@ -24,7 +24,7 @@ describe 'guest users' do
 
   context 'when enabled' do
     before :each do
-      # set relevant setting
+      AppConfig.first.update_attributes(enable_guests: true)
     end
 
     it_behaves_like 'unauthorized'
@@ -91,7 +91,7 @@ describe 'guest users' do
 
   context 'when disabled' do
     before :each do
-      # set relevant setting
+      AppConfig.first.update_attributes(enable_guests: false)
     end
 
     it_behaves_like 'unauthorized'
