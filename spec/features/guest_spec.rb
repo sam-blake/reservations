@@ -72,6 +72,17 @@ describe 'guest users' do
             href: equipment_model_path(EquipmentModel.first))
       end
 
+      it 'can change the dates' do
+        @new_date = Date.current+5.days
+        # fill in both visible / datepicker and hidden field
+        fill_in 'cart_due_date_cart', with: @new_date.to_s
+        find(:xpath, "//input[@id='date_end_alt']").set @new_date.to_s
+        find('#cart_form').submit_form!
+        visit '/'
+        expect(page.find('#cart_due_date_cart').value).to \
+          eq("#{@new_date.month}/#{@new_date.day}/#{@new_date.year}")
+      end
+
       # change the dates --> not sure how since we use JS for that. We can,
       # however, check that the equipment model divs display the correct dates
       # once we figure out how to change them via Capybara
