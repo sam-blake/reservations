@@ -5,11 +5,7 @@ describe 'guest users' do
     app_setup
   end
 
-  context 'when enabled' do
-    before :each do
-      # set relevant setting
-    end
-
+  shared_examples 'unauthorized' do
     context 'visiting protected route' do
       describe '/reservations/new' do
         it_behaves_like('inaccessible to guests', :new_reservation_path)
@@ -24,6 +20,14 @@ describe 'guest users' do
         it_behaves_like('inaccessible to guests', :edit_app_configs_path)
       end
     end
+  end
+
+  context 'when enabled' do
+    before :each do
+      # set relevant setting
+    end
+
+    it_behaves_like 'unauthorized'
 
     context 'visiting permitted route' do
       describe '/' do
@@ -78,5 +82,8 @@ describe 'guest users' do
     before :each do
       # set relevant setting
     end
+
+    it_behaves_like 'unauthorized'
+
   end
 end
