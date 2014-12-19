@@ -123,7 +123,7 @@ Reservations::Application.routes.draw do
 
   get 'status' => 'status#index'
 
-  match ':controller(/:action(/:id(.:format)))', via: [:get, :post]
+  match ':controller(/:action(/:id(.:format)))', via: [:get, :post, :put]
 
   # this is a fix for running letter opener inside vagrant
   if Rails.env.development?
