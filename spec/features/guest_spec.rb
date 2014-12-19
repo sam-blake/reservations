@@ -10,38 +10,58 @@ describe 'guest users' do
       # set relevant setting
     end
 
-    describe 'visiting protected route' do
-      context '/reservations/new' do
+    context 'visiting protected route' do
+      describe '/reservations/new' do
         it_behaves_like('inaccessible to guests', :new_reservation_path)
       end
-      context '/reservations' do
+      describe '/reservations' do
         it_behaves_like('inaccessible to guests', :reservations_path)
       end
-      context '/users' do
+      describe '/users' do
         it_behaves_like('inaccessible to guests', :users_path)
       end
-      context '/app_configs/edit' do
+      describe '/app_configs/edit' do
         it_behaves_like('inaccessible to guests', :edit_app_configs_path)
       end
     end
 
-    describe 'visiting permitted route' do
-      context '/' do
+    context 'visiting permitted route' do
+      describe '/' do
         it_behaves_like('accessible to guests', :root_path)
       end
-      context '/catalog' do
+      describe '/catalog' do
         it_behaves_like('accessible to guests', :catalog_path)
       end
-      context '/equipment_models/:id' do
+      describe '/equipment_models/:id' do
         it_behaves_like('accessible to guests',
           :equipment_model_path,
           EquipmentModel)
       end
-      context '/categories/:id/equipment_models' do
+      describe '/categories/:id/equipment_models' do
         it_behaves_like('accessible to guests',
           :category_equipment_models_path,
           Category)
       end
+    end
+
+    it 'can use the catalog' do
+      visit '/'
+      # add to cart
+      within(:css, "#add_to_cart_#{EquipmentModel.first.id}") do
+        click_link "Add to Cart"
+      end
+      visit '/'
+      expect(page.find(:css, '#list_items_in_cart')).to have_link(
+        EquipmentModel.first.name,
+        href: equipment_model_path(EquipmentModel.first))
+
+      # remove from cart
+      click_link "Remove",
+        href: "/remove_from_cart/#{EquipmentModel.first.id}"
+      visit '/'
+      expect(page.find(:css, '#list_items_in_cart')).not_to have_link(
+        EquipmentModel.first.name,
+        href: equipment_model_path(EquipmentModel.first))
     end
   end
 
