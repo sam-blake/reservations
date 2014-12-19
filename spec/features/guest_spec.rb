@@ -56,8 +56,8 @@ describe 'guest users' do
     before :each do
       # this currently isn't working for some reason, it's changing the
       # setting in the test context but that's not translating to the "server"
-      # for some reason. For example. puts AppConfig.first.enable_guests
-      # returns the corrent thing but Rails follows whichever setting gets
+      # for some reason. For example, puts AppConfig.first.enable_guests
+      # returns the correct thing but Rails follows whichever setting gets
       # applied first (depending on the describe block that goes first)
       AppConfig.first.update_attributes(enable_guests: true)
     end
