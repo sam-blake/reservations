@@ -1,7 +1,11 @@
 # based on http://www.tkalin.com/blog_posts/testing-authorization-using-rspec-parametrized-shared-examples/
 
-shared_examples 'inaccessible to guests' do |url|
-  let(:url_path) { send(url) }
+shared_examples 'inaccessible to guests' do |url, mod|
+  if mod
+    let(:url_path) { send(url, mod.first.id) }
+  else
+    let(:url_path) { send(url) }
+  end
 
   it 'redirects to the signin page with errors' do
     visit url_path
@@ -10,8 +14,12 @@ shared_examples 'inaccessible to guests' do |url|
   end
 end
 
-shared_examples 'accessible to guests' do |url|
-  let(:url_path) { send(url) }
+shared_examples 'accessible to guests' do |url, mod|
+  if mod
+    let(:url_path) { send(url, mod.first.id) }
+  else
+    let(:url_path) { send(url) }
+  end
 
   it 'goes to the correct page with sign in link' do
     visit url_path
