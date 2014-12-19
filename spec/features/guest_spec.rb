@@ -44,24 +44,29 @@ describe 'guest users' do
       end
     end
 
-    it 'can use the catalog' do
-      visit '/'
-      # add to cart
-      within(:css, "#add_to_cart_#{EquipmentModel.first.id}") do
-        click_link "Add to Cart"
+    describe 'can use the catalog' do
+      before :each do
+        visit '/'
+        within(:css, "#add_to_cart_#{EquipmentModel.first.id}") do
+          click_link "Add to Cart"
+        end
+        visit '/'
       end
-      visit '/'
-      expect(page.find(:css, '#list_items_in_cart')).to have_link(
-        EquipmentModel.first.name,
-        href: equipment_model_path(EquipmentModel.first))
 
-      # remove from cart
-      click_link "Remove",
-        href: "/remove_from_cart/#{EquipmentModel.first.id}"
-      visit '/'
-      expect(page.find(:css, '#list_items_in_cart')).not_to have_link(
-        EquipmentModel.first.name,
-        href: equipment_model_path(EquipmentModel.first))
+      it 'can add items to cart' do
+        expect(page.find(:css, '#list_items_in_cart')).to have_link(
+          EquipmentModel.first.name,
+          href: equipment_model_path(EquipmentModel.first))
+      end
+
+      it 'can remove items from cart' do
+          click_link "Remove",
+            href: "/remove_from_cart/#{EquipmentModel.first.id}"
+          visit '/'
+          expect(page.find(:css, '#list_items_in_cart')).not_to have_link(
+            EquipmentModel.first.name,
+            href: equipment_model_path(EquipmentModel.first))
+      end
 
       # change the dates --> not sure how since we use JS for that. We can,
       # however, check that the equipment model divs display the correct dates
