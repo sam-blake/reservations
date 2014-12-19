@@ -5,6 +5,7 @@ describe 'guest users' do
     app_setup
   end
 
+  # Shared Examples
   shared_examples 'unauthorized' do
     context 'visiting protected route' do
       describe '/reservations/new' do
@@ -22,9 +23,42 @@ describe 'guest users' do
     end
   end
 
-  context 'when enabled' do
+  # based on http://www.tkalin.com/blog_posts/testing-authorization-using-rspec-parametrized-shared-examples/
+  shared_examples 'inaccessible to guests' do |url, mod|
+    if mod
+      let(:url_path) { send(url, mod.first.id) }
+    else
+      let(:url_path) { send(url) }
+    end
+
+    it 'redirects to the signin page with errors' do
+      visit url_path
+      expect(current_path).to eq(new_user_session_path)
+      expect(page).to have_selector('.alert-error')
+    end
+  end
+
+  shared_examples 'accessible to guests' do |url, mod|
+    if mod
+      let(:url_path) { send(url, mod.first.id) }
+    else
+      let(:url_path) { send(url) }
+    end
+
+    it 'goes to the correct page with sign in link' do
+      visit url_path
+      expect(current_path).to eq(url_path)
+      expect(page).to have_link('Sign In')
+    end
+  end
+
+  describe 'when enabled' do
     before :each do
       AppConfig.first.update_attributes(enable_guests: true)
+    end
+
+    it 'correctly sets the setting' do
+      expect(AppConfig.first.enable_guests).to be_truthy
     end
 
     it_behaves_like 'unauthorized'
@@ -82,16 +116,16 @@ describe 'guest users' do
         expect(page.find('#cart_due_date_cart').value).to \
           eq("#{@new_date.month}/#{@new_date.day}/#{@new_date.year}")
       end
-
-      # change the dates --> not sure how since we use JS for that. We can,
-      # however, check that the equipment model divs display the correct dates
-      # once we figure out how to change them via Capybara
     end
   end
 
-  context 'when disabled' do
+  describe 'when disabled' do
     before :each do
       AppConfig.first.update_attributes(enable_guests: false)
+    end
+
+    it 'correctly sets the setting' do
+      expect(AppConfig.first.enable_guests).to be_falsey
     end
 
     it_behaves_like 'unauthorized'
@@ -114,6 +148,5 @@ describe 'guest users' do
           Category)
       end
     end
-
   end
 end
