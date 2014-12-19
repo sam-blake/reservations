@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 # see http://robots.thoughtbot.com/test-rake-tasks-like-a-boss
 describe 'delete_missed_reservations' do
   include_context 'rake'
@@ -17,6 +19,7 @@ describe 'delete_missed_reservations' do
 
   it 'deletes reservations older than the threshhold' do
     @app_configs.update_attributes(res_exp_time: 5)
+    sleep 1
     expect { subject.invoke }.to change { Reservation.count }.by(-1)
   end
 
