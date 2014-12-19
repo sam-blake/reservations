@@ -96,5 +96,24 @@ describe 'guest users' do
 
     it_behaves_like 'unauthorized'
 
+    context 'visiting nominally permitted route' do
+      describe '/' do
+        it_behaves_like('inaccessible to guests', :root_path)
+      end
+      describe '/catalog' do
+        it_behaves_like('inaccessible to guests', :catalog_path)
+      end
+      describe '/equipment_models/:id' do
+        it_behaves_like('inaccessible to guests',
+          :equipment_model_path,
+          EquipmentModel)
+      end
+      describe '/categories/:id/equipment_models' do
+        it_behaves_like('inaccessible to guests',
+          :category_equipment_models_path,
+          Category)
+      end
+    end
+
   end
 end
