@@ -83,7 +83,7 @@ class CatalogController < ApplicationController
                                      # catalog views since it's always in the
                                      # catalog controller
           @em = item.id
-          render template: "cart_js/reload_all"
+          render template: "cart_js/update_cart"
         end
       end
     end
