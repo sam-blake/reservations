@@ -19,8 +19,7 @@ describe 'delete_missed_reservations' do
 
   it 'deletes reservations older than the threshhold' do
     @app_configs.update_attributes(res_exp_time: 5)
-    sleep 1
-    expect { subject.invoke }.to change { Reservation.count }.by(-1)
+    expect { subject.invoke; sleep 1 }.to change { Reservation.count }.by(-1)
   end
 
   it "doesn't delete reservations within threshhold" do
