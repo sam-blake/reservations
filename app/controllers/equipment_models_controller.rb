@@ -2,7 +2,7 @@ class EquipmentModelsController < ApplicationController
   layout 'application_with_sidebar', only: :show
   load_and_authorize_resource
   decorates_assigned :equipment_model
-  skip_before_filter :authenticate_user!, only: [:show, :index]
+  skip_before_filter :authenticate_user!, only: [:show, :index] if AppConfig.first.enable_guests
   before_action :set_equipment_model, only: [:show, :edit, :update, :destroy,
     :deactivate]
   before_action :set_category_if_possible, only: [:index, :new]

@@ -48,10 +48,12 @@ class Ability
         end
         can :update_cart, :all
       when 'guest'
-        can :read, EquipmentModel
-        can :update_cart, :all
-        if AppConfig.first.enable_new_users
-          can :create, User
+        if AppConfig.first.enable_guests
+          can :read, EquipmentModel
+          can :update_cart, :all
+          if AppConfig.first.enable_new_users
+            can :create, User
+          end
         end
       when 'banned'
         #cannot :create, Reservation
