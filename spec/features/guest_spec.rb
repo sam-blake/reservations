@@ -62,6 +62,10 @@ describe 'guest users' do
       expect(page.find(:css, '#list_items_in_cart')).not_to have_link(
         EquipmentModel.first.name,
         href: equipment_model_path(EquipmentModel.first))
+
+      # change the dates --> not sure how since we use JS for that. We can,
+      # however, check that the equipment model divs display the correct dates
+      # once we figure out how to change them via Capybara
     end
   end
 
