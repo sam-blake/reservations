@@ -1,9 +1,6 @@
 require 'spec_helper'
 
 describe 'guest users' do
-  before :each do
-    app_setup
-  end
 
   # Shared Examples
   shared_examples 'unauthorized' do
@@ -53,13 +50,14 @@ describe 'guest users' do
   end
 
   context 'when enabled' do
-    before :each do
+    before(:each) do
       # this currently isn't working for some reason, it's changing the
       # setting in the test context but that's not translating to the "server"
       # for some reason. For example, puts AppConfig.first.enable_guests
       # returns the correct thing but Rails follows whichever setting gets
       # applied first (depending on the describe block that goes first)
-      AppConfig.first.update_attributes(enable_guests: true)
+      app_setup
+      AppConfig.first.update_attribute(:enable_guests, true)
     end
 
     it 'correctly sets the setting' do
@@ -125,8 +123,9 @@ describe 'guest users' do
   end
 
   context 'when disabled' do
-    before :each do
-      AppConfig.first.update_attributes(enable_guests: false)
+    before(:each) do
+      app_setup
+      AppConfig.first.update_attribute(:enable_guests, false)
     end
 
     it 'correctly sets the setting' do
