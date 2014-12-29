@@ -117,7 +117,7 @@ describe 'guest users' do
         find('#cart_form').submit_form!
         visit '/'
         expect(page.find('#cart_due_date_cart').value).to \
-          eq("#{@new_date.month}/#{@new_date.day}/#{@new_date.year}")
+          eq(@new_date.strftime('%m/%d/%Y'))
       end
     end
   end
