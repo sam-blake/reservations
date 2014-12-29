@@ -83,6 +83,9 @@ describe 'guest users' do
           :category_equipment_models_path,
           Category)
       end
+      describe '/terms_of_service' do
+        it_behaves_like('accessible to guests', :tos_path)
+      end
     end
 
     describe 'can use the catalog' do
@@ -150,6 +153,9 @@ describe 'guest users' do
         it_behaves_like('inaccessible to guests',
           :category_equipment_models_path,
           Category)
+      end
+      describe '/terms_of_service' do
+        it_behaves_like('inaccessible to guests', :tos_path)
       end
     end
   end
