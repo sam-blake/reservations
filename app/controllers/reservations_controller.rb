@@ -46,7 +46,7 @@ class ReservationsController < ApplicationController
       end
     end
 
-    #if no filter is defined
+    # if no filter is defined
     session[:index_start_date] ||= Date.today - 7.days
     session[:index_end_date] ||= Date.today
     @start_date = session[:index_start_date]
