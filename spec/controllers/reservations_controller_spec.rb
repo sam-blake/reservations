@@ -73,8 +73,7 @@ describe ReservationsController, type: :controller do
         # Assertion and expectation
         @filters.each do |f|
           get :index, f => true
-          expect(assigns(:reservations_set).uniq.sort).to
-          eq(Reservation.send(f)
+          expect(assigns(:reservations_set).uniq.sort).to eq(Reservation.send(f)
                .overlaps_date_range(assigns(:start_date).assigns(:end_date))
                .uniq.sort)
         end
