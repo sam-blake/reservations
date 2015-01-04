@@ -29,16 +29,37 @@ class ReservationsController < ApplicationController
     filters = [:reserved, :checked_out, :overdue, :returned, :upcoming,
                :requested, :approved_requests, :denied_requests]
     filters << :missed unless AppConfig.first.res_exp_time
-    # if the filter is defined in the params, store those reservations
-    filters.each do |filter|
-      @reservations_set = @reservations_source.send(filter) if params[filter]
+    @filter = default_filter
+    @default = true
+
+    if session[:filter]
+      params[session[:filter]] = true
     end
 
-    @default = false
-    # if no filter is defined
-    return unless @reservations_set.nil?
-    @default = true if AppConfig.first.request_text.empty?
-    @reservations_set = @reservations_source.send(default_filter)
+    # if the filter is defined in the params, store those reservations
+    filters.each do |filter|
+      if params[filter]
+        @default = false
+        @filter = filter
+        break
+      end
+    end
+    @reservations_set = @reservations_source.send(@filter)
+
+    #if no filter is defined
+    session[:index_start_date] ||= Date.today - 7.days
+    session[:index_end_date] ||= Date.today
+    @start_date = session[:index_start_date]
+    @end_date = session[:index_end_date]
+    @reservations_set = @reservations_set.reserved_in_date_range(session[:index_start_date], session[:index_end_date])
+    binding.pry
+  end
+
+  def update_index_dates
+    session[:index_start_date] = params[:list][:start_date].to_date
+    session[:index_end_date] = params[:list][:end_date].to_date
+    session[:filter] = params[:list][:filter]
+    redirect_to action: 'index'
   end
 
   def show
