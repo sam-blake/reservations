@@ -88,9 +88,8 @@ module ReservationScopes
       }
       scope :has_notes, ->() { where.not(notes: nil) }
       scope :overlaps_date_range, lambda { |start_date, end_date|
-        from("(#{reserved_in_date_range(start_date, end_date).to_sql} UNION
-               #{overlaps_with_date(start_date).to_sql} UNION
-               #{overlaps_with_date(end_date).to_sql}) AS reservations")
+        from("(#{starts_on_days(start_date, end_date).to_sql} UNION
+               #{ends_on_days(start_date, end_date).to_sql} AS reservations")
       }
     end
   end
