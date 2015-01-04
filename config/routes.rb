@@ -91,7 +91,7 @@ Reservations::Application.routes.draw do
   get '/blackouts/new_recurring' => 'blackouts#new_recurring',
       :as => :new_recurring_blackout
 
-  put '/reservation/update_index_dates' => 'reservations#update_index_dates', 
+  put '/reservation/update_index_dates' => 'reservations#update_index_dates',
       :as => :update_index_dates
 
   resources :blackouts do
