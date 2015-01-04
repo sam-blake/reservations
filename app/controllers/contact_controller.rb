@@ -1,5 +1,5 @@
 class ContactController < ApplicationController
-  skip_before_filter :authenticate_user!
+  skip_before_filter :authenticate_user!, unless: :guests_disabled?
 
   def new
     @message = Message.new
