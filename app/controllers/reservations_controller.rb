@@ -34,6 +34,7 @@ class ReservationsController < ApplicationController
 
     if session[:filter]
       params[session[:filter]] = true
+      session[:filter] = nil
     end
 
     # if the filter is defined in the params, store those reservations
@@ -44,15 +45,14 @@ class ReservationsController < ApplicationController
         break
       end
     end
-    @reservations_set = @reservations_source.send(@filter)
 
     #if no filter is defined
     session[:index_start_date] ||= Date.today - 7.days
     session[:index_end_date] ||= Date.today
     @start_date = session[:index_start_date]
     @end_date = session[:index_end_date]
-    @reservations_set = @reservations_set.reserved_in_date_range(session[:index_start_date], session[:index_end_date])
-    binding.pry
+    @reservations_time = @reservations_source.overlaps_date_range(session[:index_start_date], session[:index_end_date])
+    @reservations_set = @reservations_time.send(@filter)
   end
 
   def update_index_dates

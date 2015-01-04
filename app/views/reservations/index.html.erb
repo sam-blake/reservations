@@ -1,14 +1,25 @@
 <% title ((can? :manage, Reservation) ? "" : "My ")+"Reservations" %>
 
-<%= form_tag url_for(controller: 'reservation', action: 'update_index_dates'), method: :put do %>
-  <%= hidden_field_tag "list[filter]", @filter %>
-  <%= text_field "list", "start_date", class: "date_start", value: @start_date.strftime('%m/%d/%Y') %>
-  <%= hidden_field_tag "list[start_date]", @start_date, id: 'date_start_alt' %>
-  <%= text_field "list", "end_date", class: "date_end", value: @end_date.strftime('%m/%d/%Y') %>
-  <%= hidden_field_tag "list[end_date]", @end_date, id: 'date_end_alt' %>
-  <%= submit_tag %>
-<% end %>
-
+<div id="date_range" class="row">
+  <div class="span2">
+    <h4>Filter By Date:</h4>
+    <p><%= "#{@reservations_set.count} of #{@reservations_source.send(@filter).count}" %> reservations match the specified dates.</p>
+  <%= form_tag url_for(controller: 'reservation', action: 'update_index_dates'), method: :put do %>
+    <%= hidden_field_tag "list[filter]", @filter %>
+    <%= label_tag :start_date, 'Begin' %>
+    <%= text_field "list", "start_date", class: "date_start_no_min span2", value: @start_date.strftime('%m/%d/%Y') %>
+    <%= hidden_field_tag "list[start_date]", @start_date, id: 'date_start_alt' %>
+    <%= label_tag :end_date, 'End' %>
+    <%= text_field "list", "end_date", class: "date_end_no_min span2", value: @end_date.strftime('%m/%d/%Y') %>
+    <%= hidden_field_tag "list[end_date]", @end_date, id: 'date_end_alt' %>
+    <br />
+    <%= submit_tag "Submit", class: 'btn' %>
+  <% end %>
+  </div>
+  <div class="span10">
 <%= render :partial => "main_page_nav_buttons" %>
-
 <%= render :partial => "reservations_list", locals: {reservations_set: @reservations_set} %>
+  </div>
+</div>
+
+

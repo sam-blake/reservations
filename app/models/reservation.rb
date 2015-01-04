@@ -22,12 +22,6 @@ class Reservation < ActiveRecord::Base
 
   ## Class methods ##
 
-  def self.overlaps_date_range(start_date, end_date)
-    Reservation.from("(#{reserved_in_date_range(start_date, end_date).to_sql} UNION
-                     #{overlaps_with_date(start_date).to_sql} UNION
-                     #{overlaps_with_date(end_date).to_sql}) AS reservations")
-  end
-
   def self.unique_equipment_objects?(reservations)
     object_ids = reservations.map(&:equipment_object_id)
     object_ids == object_ids.uniq
