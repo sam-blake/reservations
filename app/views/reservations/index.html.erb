@@ -3,7 +3,7 @@
 <div id="date_range" class="row">
   <div class="span2">
     <h4>Filter By Date:</h4>
-    <p><%= "#{@reservations_set.count} of #{@reservations_source.send(@filter).count}" %> reservations match the specified dates.</p>
+    <p><%= "#{@reservations_set.count} of #{@reservations_source.send(@filter).count}" %> reservations begin between the specified dates.</p>
   <%= form_tag url_for(controller: 'reservation', action: 'update_index_dates'), method: :put do %>
     <%= hidden_field_tag "list[filter]", @filter %>
     <%= label_tag :start_date, 'Begin' %>

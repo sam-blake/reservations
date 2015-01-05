@@ -51,7 +51,8 @@ class ReservationsController < ApplicationController
     session[:index_end_date] ||= Date.today
     @start_date = session[:index_start_date]
     @end_date = session[:index_end_date]
-    @reservations_time = @reservations_source.overlaps_date_range(session[:index_start_date], session[:index_end_date])
+    @reservations_time = @reservations_source.starts_on_days(
+      session[:index_start_date], session[:index_end_date])
     @reservations_set = @reservations_time.send(@filter)
   end
 
