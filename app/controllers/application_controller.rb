@@ -223,7 +223,7 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.js do
         @empty = true
-        prepare_catalog_index_vars(EquipmentModel.find(@ems))
+        prepare_catalog_index_vars
         render template: "cart_js/update_cart"
       end
       format.html{redirect_to root_path}
