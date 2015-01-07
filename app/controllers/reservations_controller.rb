@@ -24,7 +24,7 @@ class ReservationsController < ApplicationController
     @start_date = session[:index_start_date]
     @end_date = session[:index_end_date]
   end
-  
+
   def set_filter
     # set the filter for #index action, pulling from session, then
     # params, then falling back to default
@@ -51,7 +51,7 @@ class ReservationsController < ApplicationController
   end
 
   public
-  
+
   def index
     if can? :manage, Reservation
       @reservations_source = Reservation
