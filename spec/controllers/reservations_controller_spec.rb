@@ -79,21 +79,6 @@ describe ReservationsController, type: :controller do
         end
       end
 
-      it 'passes @default as false if valid params[filter] is provided' do
-        get :index, reserved: true
-        expect(assigns(:default)).to eq(false)
-      end
-
-      it 'passes @default as true if valid params[filter] is not provided' do
-        get :index
-        expect(assigns(:default)).to eq(true)
-      end
-
-      it 'passes @default as true if invalid params[filter] is provided' do
-        get :index, absurd_and_nonexistent: true
-        expect(assigns(:default)).to eq(true)
-      end
-
       context 'who is an admin' do
         before(:each) do
           sign_in @admin
