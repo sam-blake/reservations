@@ -1,4 +1,12 @@
 module ReservationsHelper
+  def filter_message(set, filter, view_all)
+    if view_all
+      "Viewing all records"
+    else
+      "#{set.count} of #{set.send(filter).count} reservations begin between the specified dates"
+    end
+  end
+
   def reservation_length
     @reservation_length =
       (@reservation.due_date.to_date - @reservation.start_date.to_date).to_i
