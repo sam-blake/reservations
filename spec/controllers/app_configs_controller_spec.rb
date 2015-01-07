@@ -47,8 +47,8 @@ describe AppConfigsController, type: :controller do
       # Since they are pretty unimportant we're commenting them out to ensure
       # a useful test suite
       # it { is_expected.to respond_with(:success) }
-      # it { is_expected.to set_the_flash }
-      it { is_expected.to render_template('application_setup/index') }
+      it { is_expected.to set_the_flash }
+      # it { is_expected.to render_template('application_setup/index') }
     end
   end
 
