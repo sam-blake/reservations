@@ -228,14 +228,12 @@ class ApplicationController < ActionController::Base
   # rubocop:enable MethodLength, AbcSize
 
   def empty_cart
-    @ems = cart.items.keys
     session[:cart].purge_all if session[:cart]
     flash[:notice] = 'Cart emptied.'
     respond_to do |format|
       format.js do
-        @empty = true
         prepare_catalog_index_vars
-        render template: 'cart_js/update_cart'
+        render template: 'cart_js/reload_all'
       end
       format.html { redirect_to root_path }
     end
