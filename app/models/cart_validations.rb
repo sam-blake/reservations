@@ -75,7 +75,7 @@ module CartValidations
     # estimated actual limit of >350 (see issue #880)
     cookie_limit = 100
     errors = []
-    if self.items.keys.count > cookie_limit
+    if items.keys.count > cookie_limit
       errors << "You cannot add more than #{cookie_limit} models to the cart."
     end
     errors
