@@ -93,6 +93,8 @@ Reservations::Application.routes.draw do
 
   put '/reservation/update_index_dates' => 'reservations#update_index_dates',
       :as => :update_index_dates
+  put '/reservation/view_all_dates' => 'reservations#view_all_dates',
+      :as => :view_all_dates
 
   resources :blackouts do
     collection do

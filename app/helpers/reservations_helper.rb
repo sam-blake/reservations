@@ -3,7 +3,7 @@ module ReservationsHelper
     if view_all
       'Viewing all records'
     else
-      "#{set.count} of #{set.send(filter).count}"\
+      "#{set.count} of #{set.send(filter).count} "\
       'reservations begin between the specified dates'
     end
   end
