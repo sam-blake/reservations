@@ -85,7 +85,7 @@ class CatalogController < ApplicationController
         # this isn't necessary for EM show page updates but not sure how to
         # check for catalog views since it's always in the catalog controller
         prepare_catalog_index_vars([item])
-        @ems = [item.id]
+        @item = item
         render template: 'cart_js/update_cart'
       end
     end
