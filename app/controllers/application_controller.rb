@@ -76,7 +76,7 @@ class ApplicationController < ActionController::Base
        User.find_by_id(session[:cart].reserver_id).nil?
       session[:cart].reserver_id = reserver.id
     end
-    fix_cart_items
+    session[:cart].fix_items
     session[:cart]
   end
 
@@ -115,14 +115,6 @@ class ApplicationController < ActionController::Base
   def fix_cart_date
     cart.start_date = (Date.current) if cart.start_date < Date.current
     cart.fix_due_date
-  end
-
-  # make sure that we don't have any non-existant models in our cart that
-  # would cause errors when rendering
-  def fix_cart_items
-    session[:cart].items.each do |em, _count|
-      session[:cart].items.delete(em) unless EquipmentModel.find_by_id(em)
-    end
   end
 
   # If user's session has an old Cart object that stores items in Array rather
