@@ -49,6 +49,7 @@ class Ability
         can :update_cart, :all
       when 'guest'
         can :read, EquipmentModel
+        can :empty_cart, :all
         can :update_cart, :all
         if AppConfig.first.enable_new_users
           can :create, User
