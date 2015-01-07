@@ -25,24 +25,16 @@ class ReservationsController < ApplicationController
     @end_date = session[:index_end_date]
   end
 
-  def update_index_dates
-    session[:index_start_date] = params[:list][:start_date].to_date
-    session[:index_end_date] = params[:list][:end_date].to_date
-    session[:filter] = params[:list][:filter]
-    redirect_to action: 'index'
-  end
-
   public
 
   def index # rubocop:disable MethodLength
     # define our source of reservations depending on user status
-    @default = true
     if can? :manage, Reservation
       @reservations_source = Reservation
-      @filter = :reserved
+      @filter = :upcoming
     else
       @reservations_source = current_user.reservations
-      @filter = :upcoming
+      @filter = :reserved
     end
 
     filters = [:reserved, :checked_out, :overdue, :returned, :upcoming,
@@ -58,16 +50,23 @@ class ReservationsController < ApplicationController
     # if the filter is defined in the params, store those reservations
     filters.each do |filter|
       next unless params[filter]
-      @default = false
       @filter = filter
       break
     end
+    params[@filter] = true
 
     set_index_dates
 
     @reservations_time = @reservations_source.starts_on_days(
       @start_date, @end_date)
     @reservations_set = @reservations_time.send(@filter)
+  end
+
+  def update_index_dates
+    session[:index_start_date] = params[:list][:start_date].to_date
+    session[:index_end_date] = params[:list][:end_date].to_date
+    session[:filter] = params[:list][:filter]
+    redirect_to action: 'index'
   end
 
   def show
